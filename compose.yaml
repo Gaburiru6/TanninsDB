@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: phenolicsdb-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: phenolicsdb
+      POSTGRES_USER: phenollicsdb
+      POSTGRES_PASSWORD: phenollicsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - phenolicsdb_data:/var/lib/postgresql/data
+
+volumes:
+  phenolicsdb_data:

@@ -1,4 +1,4 @@
-package br.edu.ufrn.tanninsdb.dto;
+package br.edu.ufrn.tanninsdb.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

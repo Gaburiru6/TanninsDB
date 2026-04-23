@@ -1,7 +1,7 @@
-package br.edu.ufrn.tanninsdb.service;
+package br.edu.ufrn.tanninsdb.auth.service;
 
 import br.edu.ufrn.tanninsdb.config.OrcidProperties;
-import br.edu.ufrn.tanninsdb.dto.OrcidTokenResponse;
+import br.edu.ufrn.tanninsdb.auth.dto.OrcidTokenResponse;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;

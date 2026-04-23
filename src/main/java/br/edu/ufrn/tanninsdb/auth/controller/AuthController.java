@@ -1,8 +1,8 @@
-package br.edu.ufrn.tanninsdb.controller;
+package br.edu.ufrn.tanninsdb.auth.controller;
 
 import br.edu.ufrn.tanninsdb.config.OrcidProperties;
-import br.edu.ufrn.tanninsdb.dto.OrcidTokenResponse;
-import br.edu.ufrn.tanninsdb.service.OrcidService;
+import br.edu.ufrn.tanninsdb.auth.dto.OrcidTokenResponse;
+import br.edu.ufrn.tanninsdb.auth.service.OrcidService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.*;
 

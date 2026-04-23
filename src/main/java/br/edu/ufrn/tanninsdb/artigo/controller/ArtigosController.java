@@ -1,4 +1,4 @@
-package br.edu.ufrn.tanninsdb.controller;
+package br.edu.ufrn.tanninsdb.artigo.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,9 +1,11 @@
 package br.edu.ufrn.tanninsdb.config;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@Getter
 public class OrcidProperties {
 
     @Value("${orcid.client-id}")
@@ -14,16 +16,4 @@ public class OrcidProperties {
 
     @Value("${orcid.redirect-uri}")
     private String redirectUri;
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public String getRedirectUri() {
-        return redirectUri;
-    }
 }

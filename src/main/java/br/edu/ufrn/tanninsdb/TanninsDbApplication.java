@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PhenolicsDbApplication {
+public class TanninsDbApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PhenolicsDbApplication.class, args);
+        SpringApplication.run(TanninsDbApplication.class, args);
     }
 
 }

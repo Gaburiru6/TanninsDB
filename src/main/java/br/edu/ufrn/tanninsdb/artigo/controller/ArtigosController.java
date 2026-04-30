@@ -1,124 +1,55 @@
 package br.edu.ufrn.tanninsdb.artigo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import br.edu.ufrn.tanninsdb.artigo.dto.ArtigoRequestDTO;
+import br.edu.ufrn.tanninsdb.artigo.dto.ArtigoResponseDTO;
+import br.edu.ufrn.tanninsdb.artigo.service.ArtigoService;
+import br.edu.ufrn.tanninsdb.usuario.model.Usuario;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/api/artigos")
+@RequiredArgsConstructor
+@Tag(name = "Artigos", description = "Gerenciamento de artigos científicos")
 public class ArtigosController {
 
-    @GetMapping(value = "/artigos/novo", produces = "text/html")
-    public String novoArtigo() {
-        return """
-        <html>
-            <head>
-                <meta charset="UTF-8">
-                <title>Novo Artigo</title>
-            </head>
-            <body style="font-family: Arial; margin: 40px;">
-                <h2>Cadastro de Artigo</h2>
-                <form action="/artigos/salvar" method="post">
-                    <label>Título:</label><br>
-                    <input type="text" name="titulo"><br><br>
-                    
-                    <label>Porcentagem de Fenólicos:</label><br>
-                    <input type="text" name="porcentagemFenolicos"><br><br>
-                    
-                    <label>Porcentagem de Taninos:</label><br>
-                    <input type="text" name="porcentagemTaninos"><br><br>
-                    
-                    <label>Taninos condensados(opcional):</label><br>
-                    <input type="text" name="taninosCondensados"><br><br>
-                    
-                    <label>Taninos Hidrolizáveis(opcional):</label><br>
-                    <input type="text" name="taninosHidrolizaveis"><br><br>
-                    
-                    <label>Metodologia utilizada:</label><br>
-                    <input type="text" name="metodologia"><br><br>
-                    
-                    <label>Tipo de extração:</label><br>
-                    <input type="text" name="tipoExtracao"><br><br>
-                    
-                    <label>Espécie:</label><br>
-                    <input type="text" name="especie"><br><br>
-                    
-                    <label>Local coleta:</label><br>
-                    <input type="text" name="localColeta"><br><br>
-                    
-                    <label>Parte da planta:</label><br>
-                    <input type="text" name="partePlanta"><br><br>
-                    
-                    <label>Estação do ano:</label><br>
-                    <input type="text" name="estacaoAno"><br><br>
-                    
-                    <label>Link da publicação:</label><br>
-                    <input type="text" name="linkPublicacao"><br><br>
-                    
-                    <button type="submit">Enviar</button>
-                </form>
-            </body>
-        </html>
-        """;
+    private final ArtigoService artigoService;
+
+    @PostMapping
+    @Operation(summary = "Salva um novo artigo", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ArtigoResponseDTO> salvar(
+            @RequestBody @Valid ArtigoRequestDTO dto,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+        
+        ArtigoResponseDTO salvo = artigoService.salvar(dto, usuarioLogado);
+        return ResponseEntity.status(HttpStatus.CREATED).body(salvo);
     }
 
+    @GetMapping
+    @Operation(summary = "Lista todos os artigos")
+    public ResponseEntity<List<ArtigoResponseDTO>> listar() {
+        return ResponseEntity.ok(artigoService.listarTodos());
+    }
 
-    @PostMapping(value = "/artigos/salvar", produces = "text/html")
-    public String salvarArtigo(
-            @RequestParam String titulo,
-            @RequestParam String porcentagemFenolicos,
-            @RequestParam String porcentagemTaninos,
-            @RequestParam(required = false) String taninosCondensados,
-            @RequestParam(required = false) String taninosHidrolizaveis,
-            @RequestParam String metodologia,
-            @RequestParam String tipoExtracao,
-            @RequestParam String especie,
-            @RequestParam String localColeta,
-            @RequestParam String partePlanta,
-            @RequestParam String estacaoAno,
-            @RequestParam String linkPublicacao) {
+    @GetMapping("/{id}")
+    @Operation(summary = "Busca um artigo por ID")
+    public ResponseEntity<ArtigoResponseDTO> buscar(@PathVariable Long id) {
+        return ResponseEntity.ok(artigoService.buscarPorId(id));
+    }
 
-        return """
-    <html>
-        <head>
-            <meta charset="UTF-8">
-            <title>Artigo Salvo</title>
-        </head>
-        <body style="font-family: Arial; margin: 40px;">
-            <h2>Artigo recebido com sucesso!</h2>
-            <hr>
-
-            <p><strong>Título:</strong> %s</p>
-            <p><strong>%% Fenólicos:</strong> %s</p>
-            <p><strong>%% Taninos:</strong> %s</p>
-            <p><strong>Taninos Condensados:</strong> %s</p>
-            <p><strong>Taninos Hidrolizáveis:</strong> %s</p>
-            <p><strong>Metodologia:</strong> %s</p>
-            <p><strong>Tipo de Extração:</strong> %s</p>
-            <p><strong>Espécie:</strong> %s</p>
-            <p><strong>Local de Coleta:</strong> %s</p>
-            <p><strong>Parte da Planta:</strong> %s</p>
-            <p><strong>Estação do Ano:</strong> %s</p>
-            <p><strong>Link:</strong> %s</p>
-
-            <hr>
-            <a href="/artigos/novo">Cadastrar novo artigo</a><br>
-            <a href="/">Voltar ao início</a>
-        </body>
-    </html>
-    """.formatted(
-                titulo,
-                porcentagemFenolicos,
-                porcentagemTaninos,
-                taninosCondensados != null ? taninosCondensados : "Não informado",
-                taninosHidrolizaveis != null ? taninosHidrolizaveis : "Não informado",
-                metodologia,
-                tipoExtracao,
-                especie,
-                localColeta,
-                partePlanta,
-                estacaoAno,
-                linkPublicacao
-        );
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Remove um artigo", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        artigoService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }

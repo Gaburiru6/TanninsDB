@@ -2,6 +2,7 @@ package br.edu.ufrn.tanninsdb.auth.service;
 
 import br.edu.ufrn.tanninsdb.config.OrcidProperties;
 import br.edu.ufrn.tanninsdb.auth.dto.OrcidTokenResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -9,14 +10,11 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @Service
+@RequiredArgsConstructor
 public class OrcidService {
 
     private final OrcidProperties properties;
     private final RestTemplate restTemplate = new RestTemplate();
-
-    public OrcidService(OrcidProperties properties) {
-        this.properties = properties;
-    }
 
     public OrcidTokenResponse exchangeCodeForToken(String code) {
 

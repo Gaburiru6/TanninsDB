@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(of = {"id", "email"})
+@EqualsAndHashCode(of = {"id", "idOrcid"})
 @ToString(exclude = {"senha", "artigos"})
 public class Usuario implements UserDetails {
 
@@ -31,7 +31,7 @@ public class Usuario implements UserDetails {
     @Column(nullable = false, length = 150)
     private String nome;
 
-    @Column(nullable = false, unique = true, length = 150)
+    @Column(unique = true, length = 150)
     private String email;
 
     @Column(nullable = false)
@@ -56,7 +56,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return idOrcid;
     }
 
     @Override

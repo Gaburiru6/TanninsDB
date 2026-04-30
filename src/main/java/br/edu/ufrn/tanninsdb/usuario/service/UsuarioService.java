@@ -43,4 +43,9 @@ public class UsuarioService implements UserDetailsService {
     public void deletar(Long id) {
         usuarioRepository.deleteById(id);
     }
+
+    public Optional<Usuario> buscarPorIdOrcid(String orcid) {
+        return usuarioRepository.findByIdOrcid(orcid);
+
+    }
 }

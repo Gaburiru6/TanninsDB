@@ -46,13 +46,12 @@ public class AuthController {
 
         OrcidTokenResponse orcidResponse = orcidService.exchangeCodeForToken(code);
 
-        Usuario usuario = usuarioService.buscarPorEmail(orcidResponse.getOrcid() + "@orcid.org")
+        Usuario usuario = usuarioService.buscarPorIdOrcid(orcidResponse.getOrcid())
                 .orElseGet(() -> {
                     Usuario novo = Usuario.builder()
                             .idOrcid(orcidResponse.getOrcid())
                             .nome(orcidResponse.getName())
-                            .email(orcidResponse.getOrcid() + "@orcid.org")
-                            .senha("") // Sem senha para usuários ORCID
+                            .senha("")
                             .role(Role.PESQUISADOR)
                             .build();
                     return usuarioService.salvar(novo);

@@ -46,6 +46,15 @@ public class ArtigosController {
         return ResponseEntity.ok(artigoService.buscarPorId(id));
     }
 
+    @PutMapping("/{id}")
+    @Operation(summary = "Atualiza um artigo existente", security = @SecurityRequirement(name = "bearerAuth"))
+    public ResponseEntity<ArtigoResponseDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid ArtigoRequestDTO dto,
+            @AuthenticationPrincipal Usuario usuarioLogado) {
+        return ResponseEntity.ok(artigoService.atualizar(id, dto, usuarioLogado));
+    }
+
     @DeleteMapping("/{id}")
     @Operation(summary = "Remove um artigo", security = @SecurityRequirement(name = "bearerAuth"))
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
